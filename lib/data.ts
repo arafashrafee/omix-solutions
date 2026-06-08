@@ -58,22 +58,22 @@ export interface ClientBrand {
 export const clientBrands: ClientBrand[] = [
   {
     name: "BaigDentPro",
-    logo: "/brand logos/Baig Dent Pro su.png",
+    logo: "/brand logos/baigdentpro.png",
     category: "Software / SaaS",
   },
   {
     name: "DokanXpress",
-    logo: "/brand logos/DDx.png",
+    logo: "/brand logos/dokanxpress.png",
     category: "E-Commerce",
   },
   {
     name: "DXtrade",
-    logo: "/brand logos/DXtrade logo.png",
+    logo: "/brand logos/dxtrade.png",
     category: "E-Commerce",
   },
   {
     name: "Studio360",
-    logo: "/brand logos/studio 360 logo.png",
+    logo: "/brand logos/studio 360.png",
     category: "Web Development",
   },
 ];
@@ -327,7 +327,7 @@ export const portfolioProjects: PortfolioProject[] = [
     category: "Software Development",
     description:
       "Comprehensive dental clinic management SaaS platform with patient records, appointment scheduling, billing, and treatment planning modules.",
-    image: "/portfolio/baigdentpro.svg",
+    image: "/brand logos/baigdentpro.png",
     tags: ["SaaS", "Healthcare", "Web App"],
     url: "https://baigdentpro.com",
   },
@@ -337,7 +337,7 @@ export const portfolioProjects: PortfolioProject[] = [
     category: "E-commerce",
     description:
       "Full-featured e-commerce platform with product catalog, order management, payment integration, and real-time delivery tracking.",
-    image: "/brand logos/DDx.png",
+    image: "/brand logos/dokanxpress.png",
     tags: ["E-commerce", "Web App", "Marketplace"],
     url: "https://dokanxpress.com",
   },
@@ -347,7 +347,7 @@ export const portfolioProjects: PortfolioProject[] = [
     category: "E-commerce",
     description:
       "Advanced e-commerce trading platform with inventory management, multi-vendor support, and analytics dashboard.",
-    image: "/brand logos/DXtrade logo.png",
+    image: "/brand logos/dxtrade.png",
     tags: ["E-commerce", "Trading", "Web App"],
   },
   {
@@ -356,7 +356,7 @@ export const portfolioProjects: PortfolioProject[] = [
     category: "Web Development",
     description:
       "Professional web development agency platform showcasing services, portfolio, and client management system. Led by CEO Mojib Baig.",
-    image: "/brand logos/studio 360 logo.png",
+    image: "/brand logos/studio 360.png",
     tags: ["Web Development", "Agency", "Portfolio"],
   },
 ];
