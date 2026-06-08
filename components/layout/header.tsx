@@ -52,9 +52,9 @@ export default function Header() {
           <Image
             src="/logo.png"
             alt={siteConfig.name}
-            width={160}
-            height={40}
-            className="h-10 w-auto"
+            width={200}
+            height={100}
+            className="h-9 w-auto max-w-[140px] sm:max-w-none"
             priority
           />
         </Link>

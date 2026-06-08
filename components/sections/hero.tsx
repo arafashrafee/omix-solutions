@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowRight, Play } from "lucide-react";
-import HeroBeams from "@/components/ui/hero-beams";
+import ShaderBackground from "@/components/ui/shader-background";
 
 export default function Hero() {
   return (
     <section className="relative min-h-[100dvh] overflow-hidden bg-[#0a0f1a]">
-      {/* PulseBeams Background */}
-      <HeroBeams />
+      {/* Shader Background */}
+      <ShaderBackground />
 
       {/* Gradient orbs */}
       <div className="pointer-events-none absolute inset-0">

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" fill="none">
+  <defs>
+    <linearGradient id="teal" x1="30" y1="0" x2="170" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3CE8BE"/>
+      <stop offset="100%" stop-color="#26B596"/>
+    </linearGradient>
+  </defs>
+  <path
+    fill-rule="evenodd"
+    fill="url(#teal)"
+    d="
+      M 100 8
+      L 184 55
+      L 184 125
+      L 65 170
+      L 150 210
+      L 16 210
+      L 16 55
+      Z
+
+      M 100 44
+      L 154 74
+      L 154 112
+      L 76 144
+      L 130 174
+      L 46 174
+      L 46 74
+      Z
+    "
+  />
+</svg>

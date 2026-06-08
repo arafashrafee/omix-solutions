@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { portfolioProjects } from "@/lib/data";
@@ -9,6 +11,35 @@ import {
   fadeUp,
 } from "@/components/ui/motion";
 import { motion } from "motion/react";
+
+function ProjectImage({ src, alt }: { src: string; alt: string }) {
+  const [failed, setFailed] = useState(false);
+  const initials = alt
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
+  if (failed) {
+    return (
+      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20">
+        <span className="text-lg font-bold text-white/60">{initials}</span>
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={120}
+      height={120}
+      className="object-contain drop-shadow-lg"
+      onError={() => setFailed(true)}
+    />
+  );
+}
 
 export default function PortfolioPreview() {
   const featured = portfolioProjects.slice(0, 3);
@@ -46,12 +77,7 @@ export default function PortfolioPreview() {
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-[#1a2236] to-[#111827]">
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="mx-auto h-12 w-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20" />
-                      <p className="mt-3 text-xs font-medium text-slate-500">
-                        {project.category}
-                      </p>
-                    </div>
+                    <ProjectImage src={project.image} alt={project.title} />
                   </div>
                 </div>
 

@@ -258,12 +258,12 @@ export const services: Service[] = [
 
 export const testimonials: Testimonial[] = [
   {
-    name: "Dr. Faisal Baig",
-    role: "Founder & CEO",
+    name: "Dr. Salehin Baig",
+    role: "CEO",
     company: "BaigDentPro",
     content:
       "OMIX Solutions built our dental clinic management software from scratch. The attention to detail was remarkable — they understood our workflow deeply and delivered a system that transformed how we operate. Our clinic efficiency improved by 40% within the first month.",
-    avatar: "FB",
+    avatar: "SB",
   },
   {
     name: "Sarah Rahman",
@@ -297,9 +297,9 @@ export const portfolioProjects: PortfolioProject[] = [
     slug: "baigdentpro",
     category: "Software Development",
     description:
-      "Comprehensive dental clinic management software with patient records, appointment scheduling, billing, and treatment planning modules.",
-    image: "/portfolio/baigdentpro.jpg",
-    tags: ["Web App", "Healthcare", "SaaS"],
+      "Comprehensive dental clinic management SaaS platform with patient records, appointment scheduling, billing, and treatment planning modules.",
+    image: "/portfolio/baigdentpro.svg",
+    tags: ["SaaS", "Healthcare", "Web App"],
     url: "https://baigdentpro.com",
   },
   {
@@ -410,9 +410,9 @@ export const siteConfig = {
     address: "Dhanmondi, Dhaka, Bangladesh",
   },
   social: {
-    facebook: "https://facebook.com/omixsolutions",
-    linkedin: "https://linkedin.com/company/omixsolutions",
-    instagram: "https://instagram.com/omixsolutions",
+    facebook: "https://www.facebook.com/omixsolutionsbd/",
+    linkedin: "https://www.linkedin.com/company/omix-solutions/",
+    instagram: "https://www.instagram.com/omixsolutions/",
     twitter: "https://x.com/omixsolutions",
   },
 };
