@@ -118,7 +118,7 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Visual */}
+          {/* Right Visual — Realistic Dashboard */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, x: 30 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -129,108 +129,218 @@ export default function Hero() {
             }}
             className="relative hidden lg:block"
           >
-            <div className="relative aspect-square">
-              <div className="absolute inset-8 rounded-3xl bg-gradient-to-br from-[#111827] to-[#0c1525] p-8 shadow-2xl shadow-black/40 ring-1 ring-white/5">
-                <div className="flex h-full flex-col justify-between">
-                  <div>
-                    <div className="flex gap-2">
-                      <div className="h-3 w-3 rounded-full bg-red-500/40" />
-                      <div className="h-3 w-3 rounded-full bg-yellow-500/40" />
-                      <div className="h-3 w-3 rounded-full bg-green-500/40" />
-                    </div>
-                    <div className="mt-8 space-y-3">
-                      <div className="h-3 w-3/4 rounded-full bg-white/5" />
-                      <div className="h-3 w-1/2 rounded-full bg-white/5" />
-                      <div className="h-3 w-2/3 rounded-full bg-white/5" />
+            <div className="relative">
+              {/* Main Dashboard Card */}
+              <div className="rounded-2xl bg-gradient-to-br from-[#111827] to-[#0c1525] p-6 shadow-2xl shadow-black/50 ring-1 ring-white/[0.08]">
+                {/* Browser Chrome */}
+                <div className="flex items-center justify-between mb-5">
+                  <div className="flex gap-1.5">
+                    <div className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+                    <div className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+                    <div className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+                  </div>
+                  <div className="flex-1 mx-4 h-6 rounded-md bg-white/[0.04] flex items-center px-3">
+                    <div className="h-2.5 w-2.5 rounded-full bg-emerald-400/40 mr-2" />
+                    <p className="text-[9px] text-slate-500 font-mono">dashboard.omixsolutions.com</p>
+                  </div>
+                </div>
+
+                {/* Dashboard Content */}
+                <div className="grid grid-cols-3 gap-3 mb-4">
+                  {[
+                    { label: "Revenue", value: "$48.2K", change: "+12.5%", color: "cyan" },
+                    { label: "Users", value: "2,847", change: "+8.3%", color: "emerald" },
+                    { label: "Conversion", value: "4.6%", change: "+2.1%", color: "violet" },
+                  ].map((stat, i) => (
+                    <motion.div
+                      key={stat.label}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6 + i * 0.1, duration: 0.5 }}
+                      className="rounded-xl bg-white/[0.03] p-3 ring-1 ring-white/[0.06]"
+                    >
+                      <p className="text-[9px] text-slate-500 font-medium">{stat.label}</p>
+                      <p className="text-sm font-bold text-white mt-0.5">{stat.value}</p>
+                      <p className={`text-[9px] font-semibold mt-1 ${
+                        stat.color === "cyan" ? "text-cyan-400" :
+                        stat.color === "emerald" ? "text-emerald-400" : "text-violet-400"
+                      }`}>
+                        ↑ {stat.change}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Chart Area */}
+                <div className="rounded-xl bg-white/[0.02] p-4 ring-1 ring-white/[0.05] mb-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-[10px] font-semibold text-slate-300">Performance Overview</p>
+                    <div className="flex gap-3">
+                      {["Revenue", "Users"].map((label, i) => (
+                        <div key={label} className="flex items-center gap-1">
+                          <div className={`h-1.5 w-1.5 rounded-full ${i === 0 ? "bg-cyan-400" : "bg-violet-400"}`} />
+                          <span className="text-[8px] text-slate-500">{label}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  <div className="flex items-end justify-between">
+                  {/* SVG Chart */}
+                  <svg viewBox="0 0 280 80" className="w-full h-auto" fill="none">
+                    <defs>
+                      <linearGradient id="chartGrad1" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.2" />
+                        <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                    {/* Grid lines */}
+                    {[20, 40, 60].map((y) => (
+                      <line key={y} x1="0" y1={y} x2="280" y2={y} stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
+                    ))}
+                    {/* Area fill */}
+                    <motion.path
+                      d="M0,65 C20,60 40,45 70,42 C100,39 120,50 140,35 C160,20 180,25 200,18 C220,12 250,15 280,8 L280,80 L0,80 Z"
+                      fill="url(#chartGrad1)"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 1, duration: 0.8 }}
+                    />
+                    {/* Primary line */}
+                    <motion.path
+                      d="M0,65 C20,60 40,45 70,42 C100,39 120,50 140,35 C160,20 180,25 200,18 C220,12 250,15 280,8"
+                      stroke="#22d3ee"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ delay: 0.8, duration: 1.2, ease: "easeOut" }}
+                    />
+                    {/* Secondary line */}
+                    <motion.path
+                      d="M0,55 C30,52 50,58 80,50 C110,42 130,48 160,40 C190,32 220,36 250,28 C265,24 275,22 280,20"
+                      stroke="#8b5cf6"
+                      strokeWidth="1"
+                      strokeLinecap="round"
+                      strokeDasharray="3 3"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ delay: 1, duration: 1.2, ease: "easeOut" }}
+                    />
+                    {/* Data point */}
+                    <motion.circle
+                      cx="200" cy="18" r="3"
+                      fill="#22d3ee"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 1.8, duration: 0.3 }}
+                    />
+                    <motion.circle
+                      cx="200" cy="18" r="6"
+                      fill="none"
+                      stroke="#22d3ee"
+                      strokeWidth="1"
+                      opacity="0.3"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 1.8, duration: 0.3 }}
+                    />
+                  </svg>
+                </div>
+
+                {/* Bottom Row — Recent Activity */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-xl bg-white/[0.03] p-3 ring-1 ring-white/[0.05]">
+                    <p className="text-[9px] text-slate-500 font-medium mb-2">Active Projects</p>
                     <div className="space-y-2">
-                      <div className="h-8 w-20 rounded-lg bg-cyan-500/15" />
-                      <div className="h-2 w-16 rounded-full bg-white/5" />
-                    </div>
-                    <div className="flex gap-1">
-                      {[40, 60, 35, 80, 55, 70].map((h, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ height: 0 }}
-                          animate={{ height: `${h}%` }}
-                          transition={{
-                            duration: 0.8,
-                            delay: 0.8 + i * 0.1,
-                            ease: [0.22, 1, 0.36, 1],
-                          }}
-                          className="w-4 rounded-t-sm bg-gradient-to-t from-cyan-500/30 to-cyan-400/60"
-                          style={{ maxHeight: `${h}px` }}
-                        />
+                      {[
+                        { name: "E-commerce App", progress: 85 },
+                        { name: "Brand Redesign", progress: 62 },
+                        { name: "SEO Campaign", progress: 94 },
+                      ].map((project) => (
+                        <div key={project.name}>
+                          <div className="flex items-center justify-between mb-0.5">
+                            <span className="text-[8px] text-slate-400">{project.name}</span>
+                            <span className="text-[8px] text-slate-500">{project.progress}%</span>
+                          </div>
+                          <div className="h-1 w-full rounded-full bg-white/[0.06]">
+                            <motion.div
+                              className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-cyan-400"
+                              initial={{ width: 0 }}
+                              animate={{ width: `${project.progress}%` }}
+                              transition={{ delay: 1.2, duration: 0.8, ease: "easeOut" }}
+                            />
+                          </div>
+                        </div>
                       ))}
+                    </div>
+                  </div>
+                  <div className="rounded-xl bg-white/[0.03] p-3 ring-1 ring-white/[0.05]">
+                    <p className="text-[9px] text-slate-500 font-medium mb-2">Client Satisfaction</p>
+                    <div className="flex items-center gap-2">
+                      <div className="relative h-14 w-14">
+                        <svg viewBox="0 0 36 36" className="h-14 w-14 -rotate-90">
+                          <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="3" />
+                          <motion.circle
+                            cx="18" cy="18" r="15.5" fill="none"
+                            stroke="#22d3ee"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeDasharray="97.4"
+                            initial={{ strokeDashoffset: 97.4 }}
+                            animate={{ strokeDashoffset: 97.4 * 0.04 }}
+                            transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
+                          />
+                        </svg>
+                        <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-white">96%</span>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-1">
+                          <div className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                          <span className="text-[8px] text-slate-400">Satisfied</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="h-1.5 w-1.5 rounded-full bg-white/10" />
+                          <span className="text-[8px] text-slate-500">Neutral</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
+              {/* Floating Card — Traffic */}
               <motion.div
-                animate={{ y: [-5, 5, -5] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="absolute -right-4 top-16 rounded-2xl bg-[#151c2b] p-4 shadow-xl shadow-black/30 ring-1 ring-white/10"
+                animate={{ y: [-4, 4, -4] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -right-6 top-8 rounded-xl bg-[#151c2b]/95 backdrop-blur-sm px-4 py-3 shadow-xl shadow-black/40 ring-1 ring-white/10"
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
-                    <svg
-                      className="h-5 w-5 text-emerald-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"
-                      />
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
+                    <svg className="h-4 w-4 text-emerald-400" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
                     </svg>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-white">+280%</p>
-                    <p className="text-[10px] text-slate-500">Traffic Growth</p>
+                    <p className="text-[11px] font-bold text-white">+280%</p>
+                    <p className="text-[9px] text-slate-500">Traffic Growth</p>
                   </div>
                 </div>
               </motion.div>
 
+              {/* Floating Card — Projects */}
               <motion.div
-                animate={{ y: [5, -5, 5] }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="absolute -left-4 bottom-24 rounded-2xl bg-[#151c2b] p-4 shadow-xl shadow-black/30 ring-1 ring-white/10"
+                animate={{ y: [4, -4, 4] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -left-6 bottom-12 rounded-xl bg-[#151c2b]/95 backdrop-blur-sm px-4 py-3 shadow-xl shadow-black/40 ring-1 ring-white/10"
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10">
-                    <svg
-                      className="h-5 w-5 text-violet-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                      />
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-500/10">
+                    <svg className="h-4 w-4 text-violet-400" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-white">
-                      50+ Projects
-                    </p>
-                    <p className="text-[10px] text-slate-500">Completed</p>
+                    <p className="text-[11px] font-bold text-white">50+ Projects</p>
+                    <p className="text-[9px] text-slate-500">Completed</p>
                   </div>
                 </div>
               </motion.div>

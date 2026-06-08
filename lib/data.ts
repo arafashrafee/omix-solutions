@@ -49,6 +49,35 @@ export interface PortfolioProject {
   url?: string;
 }
 
+export interface ClientBrand {
+  name: string;
+  logo: string;
+  category: string;
+}
+
+export const clientBrands: ClientBrand[] = [
+  {
+    name: "BaigDentPro",
+    logo: "/brand logos/Baig Dent Pro su.png",
+    category: "Software / SaaS",
+  },
+  {
+    name: "DokanXpress",
+    logo: "/brand logos/DDx.png",
+    category: "E-Commerce",
+  },
+  {
+    name: "DXtrade",
+    logo: "/brand logos/DXtrade logo.png",
+    category: "E-Commerce",
+  },
+  {
+    name: "Studio360",
+    logo: "/brand logos/studio 360 logo.png",
+    category: "Web Development",
+  },
+];
+
 export const services: Service[] = [
   {
     title: "Software Development",
@@ -303,49 +332,32 @@ export const portfolioProjects: PortfolioProject[] = [
     url: "https://baigdentpro.com",
   },
   {
-    title: "ShopLocal Marketplace",
-    slug: "shoplocal",
+    title: "DokanXpress",
+    slug: "dokanxpress",
     category: "E-commerce",
     description:
-      "Multi-vendor e-commerce platform connecting local businesses with customers, featuring real-time inventory and delivery tracking.",
-    image: "/portfolio/shoplocal.jpg",
-    tags: ["E-commerce", "Marketplace", "Mobile"],
+      "Full-featured e-commerce platform with product catalog, order management, payment integration, and real-time delivery tracking.",
+    image: "/brand logos/DDx.png",
+    tags: ["E-commerce", "Web App", "Marketplace"],
+    url: "https://dokanxpress.com",
   },
   {
-    title: "GreenField Dashboard",
-    slug: "greenfield",
-    category: "Business Automation",
+    title: "DXtrade",
+    slug: "dxtrade",
+    category: "E-commerce",
     description:
-      "Real-time logistics operations dashboard with route optimization, fleet tracking, and automated dispatch management.",
-    image: "/portfolio/greenfield.jpg",
-    tags: ["Dashboard", "Automation", "Analytics"],
+      "Advanced e-commerce trading platform with inventory management, multi-vendor support, and analytics dashboard.",
+    image: "/brand logos/DXtrade logo.png",
+    tags: ["E-commerce", "Trading", "Web App"],
   },
   {
-    title: "NovaTech Brand Identity",
-    slug: "novatech",
-    category: "Branding",
+    title: "Studio360",
+    slug: "studio360",
+    category: "Web Development",
     description:
-      "Complete brand identity overhaul including logo design, brand guidelines, marketing collateral, and digital presence strategy.",
-    image: "/portfolio/novatech.jpg",
-    tags: ["Branding", "Design", "Strategy"],
-  },
-  {
-    title: "MediCare Plus App",
-    slug: "medicare-plus",
-    category: "App Development",
-    description:
-      "Telemedicine mobile application with video consultations, prescription management, and health record integration.",
-    image: "/portfolio/medicare.jpg",
-    tags: ["Mobile App", "Healthcare", "React Native"],
-  },
-  {
-    title: "EduConnect LMS",
-    slug: "educonnect",
-    category: "SaaS Development",
-    description:
-      "Learning management system with live classes, course creation tools, progress tracking, and certification management.",
-    image: "/portfolio/educonnect.jpg",
-    tags: ["SaaS", "Education", "Web App"],
+      "Professional web development agency platform showcasing services, portfolio, and client management system. Led by CEO Mojib Baig.",
+    image: "/brand logos/studio 360 logo.png",
+    tags: ["Web Development", "Agency", "Portfolio"],
   },
 ];
 

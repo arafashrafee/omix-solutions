@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/hero";
+import TrustedBy from "@/components/sections/trusted-by";
 import ServicesOverview from "@/components/sections/services-overview";
 import Stats from "@/components/sections/stats";
 import PortfolioPreview from "@/components/sections/portfolio-preview";
@@ -9,6 +10,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <TrustedBy />
       <ServicesOverview />
       <Stats />
       <PortfolioPreview />
