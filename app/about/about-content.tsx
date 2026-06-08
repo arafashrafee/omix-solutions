@@ -19,6 +19,7 @@ import {
   fadeUp,
 } from "@/components/ui/motion";
 import CTA from "@/components/sections/cta";
+import Leadership from "@/components/sections/leadership";
 
 const values = [
   {
@@ -199,6 +200,9 @@ export default function AboutContent() {
           </StaggerChildren>
         </div>
       </section>
+
+      {/* Leadership */}
+      <Leadership />
 
       {/* Why Choose Us */}
       <section className="bg-[#0a0f1a] py-24 lg:py-32">
