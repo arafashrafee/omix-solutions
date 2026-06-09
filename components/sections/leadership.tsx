@@ -52,6 +52,7 @@ const leaders: LeaderProfile[] = [
     name: "Sazal Pramanik",
     role: "Co-Founder & CTO",
     bio: "Full-stack architect with deep expertise in system design, cloud infrastructure, and emerging technologies. Drives OMIX's engineering excellence and technical innovation.",
+    image: "/leaderships/sazal.jpg",
     initials: "SP",
     social: {
       linkedin: "#",
