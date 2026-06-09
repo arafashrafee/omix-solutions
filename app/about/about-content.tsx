@@ -252,27 +252,66 @@ export default function AboutContent() {
             </AnimateOnScroll>
 
             <AnimateOnScroll delay={0.15}>
-              <div className="relative aspect-square rounded-3xl bg-gradient-to-br from-[#151c2b] to-[#111827] p-10 shadow-2xl shadow-black/40 ring-1 ring-white/5">
-                <div className="flex h-full flex-col justify-between text-white">
-                  <div>
-                    <p className="text-sm font-medium text-cyan-400 uppercase tracking-wider">
-                      Our Approach
-                    </p>
-                    <p className="mt-4 text-2xl font-bold leading-snug">
-                      Understand.
-                      <br />
-                      Design.
-                      <br />
-                      Build.
-                      <br />
-                      <span className="text-cyan-400">Grow.</span>
-                    </p>
-                  </div>
-                  <p className="text-sm leading-relaxed text-slate-400">
-                    Every project follows our proven four-phase methodology —
-                    ensuring clarity, quality, and measurable results at every
-                    step.
-                  </p>
+              <div className="relative rounded-3xl bg-gradient-to-br from-[#151c2b] to-[#111827] p-8 lg:p-10 shadow-2xl shadow-black/40 ring-1 ring-white/5">
+                <p className="text-sm font-medium text-cyan-400 uppercase tracking-wider">
+                  Our Approach
+                </p>
+                <p className="mt-2 text-lg font-semibold text-white">
+                  A proven four-phase methodology
+                </p>
+
+                <div className="mt-8 space-y-6">
+                  {[
+                    {
+                      step: "01",
+                      title: "Understand",
+                      desc: "Deep-dive into your business goals, audience, and competitive landscape to define a clear strategy.",
+                    },
+                    {
+                      step: "02",
+                      title: "Design",
+                      desc: "Wireframes, prototypes, and visual concepts validated with your team before a single line of code.",
+                    },
+                    {
+                      step: "03",
+                      title: "Build",
+                      desc: "Agile sprints with weekly demos. Clean, tested, production-grade code shipped incrementally.",
+                    },
+                    {
+                      step: "04",
+                      title: "Grow",
+                      desc: "Launch, monitor, optimize. We stay on as your partner to iterate and scale what works.",
+                    },
+                  ].map((phase, i) => (
+                    <div key={phase.step} className="flex gap-4 group">
+                      <div className="flex flex-col items-center">
+                        <span
+                          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-xs font-bold ${
+                            i === 3
+                              ? "bg-cyan-500/20 text-cyan-400 ring-1 ring-cyan-500/30"
+                              : "bg-white/[0.06] text-slate-400 ring-1 ring-white/[0.08]"
+                          }`}
+                        >
+                          {phase.step}
+                        </span>
+                        {i < 3 && (
+                          <div className="mt-1 h-full w-px bg-gradient-to-b from-white/10 to-transparent" />
+                        )}
+                      </div>
+                      <div className="pb-1">
+                        <h4
+                          className={`text-sm font-semibold ${
+                            i === 3 ? "text-cyan-400" : "text-white"
+                          }`}
+                        >
+                          {phase.title}
+                        </h4>
+                        <p className="mt-1 text-sm leading-relaxed text-slate-400">
+                          {phase.desc}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </AnimateOnScroll>

@@ -38,7 +38,7 @@ const leaders: LeaderProfile[] = [
   },
   {
     name: "MD Taibur Rahaman",
-    role: "Co-Founder & CPO",
+    role: "Co-Founder, COO & CPO",
     bio: "Product strategist with a sharp eye for user experience and market fit. Leads product vision and roadmap, ensuring every solution delivers real value to clients and end users.",
     image: "/leaderships/taibur.png",
     initials: "TR",
@@ -50,7 +50,7 @@ const leaders: LeaderProfile[] = [
   },
   {
     name: "Sazal Pramanik",
-    role: "Co-Founder & CTO",
+    role: "Co-Founder, CTO & CMO",
     bio: "Full-stack architect with deep expertise in system design, cloud infrastructure, and emerging technologies. Drives OMIX's engineering excellence and technical innovation.",
     image: "/leaderships/sazal.jpg",
     initials: "SP",
