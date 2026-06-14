@@ -75,7 +75,7 @@ export default function PortfolioPreview() {
                 href={`/portfolio#${project.slug}`}
                 className="group relative flex flex-col overflow-hidden rounded-2xl bg-[#151c2b] ring-1 ring-white/5 transition-all duration-300 hover:ring-cyan-500/20 hover:-translate-y-1"
               >
-                <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-[#1a2236] to-[#111827]">
+                <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-slate-500 to-slate-600">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <ProjectImage src={project.image} alt={project.title} />
                   </div>
