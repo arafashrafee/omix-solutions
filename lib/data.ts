@@ -76,6 +76,36 @@ export const clientBrands: ClientBrand[] = [
     logo: "/brand logos/studio 360.png",
     category: "Web Development",
   },
+  {
+    name: "Fahamedul",
+    logo: "/brand logos/fahamedul.png",
+    category: "Sports / Footballer",
+  },
+  {
+    name: "Capital Power Technology",
+    logo: "/brand logos/capitalpowertechnology.png",
+    category: "Store",
+  },
+  {
+    name: "Arefin Mart",
+    logo: "/brand logos/arefinmart.png",
+    category: "Marketing",
+  },
+  {
+    name: "BaigDentalCare",
+    logo: "/brand logos/baigdentalcare.png",
+    category: "Web Development",
+  },
+  {
+    name: "Yummio",
+    logo: "/brand logos/yummio.png",
+    category: "Restaurant Marketing",
+  },
+  {
+    name: "CoffeeZone",
+    logo: "/brand logos/coffeezone.png",
+    category: "Coffee Shop Marketing",
+  },
 ];
 
 export const services: Service[] = [
@@ -358,6 +388,60 @@ export const portfolioProjects: PortfolioProject[] = [
       "Professional web development agency platform showcasing services, portfolio, and client management system. Led by CEO Mojib Baig.",
     image: "/brand logos/studio 360.png",
     tags: ["Web Development", "Agency", "Portfolio"],
+  },
+  {
+    title: "Fahamedul",
+    slug: "fahamedul",
+    category: "Digital Marketing",
+    description:
+      "Personal brand and digital presence for Bangladesh National Team footballer — social media strategy, content creation, and fan engagement.",
+    image: "/brand logos/fahamedul.png",
+    tags: ["Sports", "Personal Brand", "Social Media"],
+  },
+  {
+    title: "Capital Power Technology",
+    slug: "capital-power-technology",
+    category: "E-commerce",
+    description:
+      "Online store platform for tech products with product catalog, order processing, and customer management system.",
+    image: "/brand logos/capitalpowertechnology.png",
+    tags: ["E-commerce", "Store", "Web App"],
+  },
+  {
+    title: "Arefin Mart",
+    slug: "arefin-mart",
+    category: "Digital Marketing",
+    description:
+      "Complete marketing strategy and campaign management for Arefin Mart — driving brand awareness, customer acquisition, and sales growth.",
+    image: "/brand logos/arefinmart.png",
+    tags: ["Marketing", "Branding", "Social Media"],
+  },
+  {
+    title: "BaigDentalCare",
+    slug: "baigdentalcare",
+    category: "Web Development",
+    description:
+      "Professional website for BaigDentalCare clinic — patient-friendly design with appointment booking, service showcase, and clinic information.",
+    image: "/brand logos/baigdentalcare.png",
+    tags: ["Healthcare", "Web Development", "Website"],
+  },
+  {
+    title: "Yummio",
+    slug: "yummio",
+    category: "Digital Marketing",
+    description:
+      "Restaurant marketing strategy with social media campaigns, food photography content, and online ordering promotion to boost dine-in and delivery sales.",
+    image: "/brand logos/yummio.png",
+    tags: ["Restaurant", "Marketing", "Food & Beverage"],
+  },
+  {
+    title: "CoffeeZone",
+    slug: "coffeezone",
+    category: "Digital Marketing",
+    description:
+      "Coffee shop marketing and brand identity — social media management, promotional campaigns, and community engagement to grow local customer base.",
+    image: "/brand logos/coffeezone.png",
+    tags: ["Coffee Shop", "Marketing", "Branding"],
   },
 ];
 

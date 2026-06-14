@@ -162,11 +162,11 @@ export default function ContactContent() {
                         className="mt-2 block w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white transition-colors focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 focus:outline-none appearance-none"
                       >
                         <option value="" className="bg-[#111827]">Select a range</option>
-                        <option value="under-5k" className="bg-[#111827]">Under $5,000</option>
-                        <option value="5k-10k" className="bg-[#111827]">$5,000 – $10,000</option>
-                        <option value="10k-25k" className="bg-[#111827]">$10,000 – $25,000</option>
-                        <option value="25k-50k" className="bg-[#111827]">$25,000 – $50,000</option>
-                        <option value="50k-plus" className="bg-[#111827]">$50,000+</option>
+                        <option value="50k-100k" className="bg-[#111827]">৳50,000 – ৳1,00,000</option>
+                        <option value="100k-250k" className="bg-[#111827]">৳1,00,000 – ৳2,50,000</option>
+                        <option value="250k-500k" className="bg-[#111827]">৳2,50,000 – ৳5,00,000</option>
+                        <option value="500k-1m" className="bg-[#111827]">৳5,00,000 – ৳10,00,000</option>
+                        <option value="1m-plus" className="bg-[#111827]">৳10,00,000+</option>
                       </select>
                     </div>
 
