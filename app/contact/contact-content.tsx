@@ -2,17 +2,97 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
-import { Mail, Phone, MapPin, Send, CheckCircle2 } from "lucide-react";
+import { Mail, Phone, MapPin, Send, CheckCircle2, MessageCircle } from "lucide-react";
 import { siteConfig, services } from "@/lib/data";
+import {
+  BUDGET_LABELS,
+  buildWhatsAppReminderUrl,
+  type ReminderMethod,
+} from "@/lib/contact-reminder";
 import { AnimateOnScroll } from "@/components/ui/motion";
 import HeroBeams from "@/components/ui/hero-beams";
 
 export default function ContactContent() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [reminderMethod, setReminderMethod] = useState<ReminderMethod>("none");
+  const [whatsappReminderUrl, setWhatsappReminderUrl] = useState<string | null>(
+    null
+  );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setError(null);
+    setIsSubmitting(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const phone = String(formData.get("phone") ?? "").trim();
+    const service = String(formData.get("service") ?? "").trim();
+    const budget = String(formData.get("budget") ?? "").trim();
+    const message = String(formData.get("message") ?? "").trim();
+    const serviceEntry = services.find((item) => item.slug === service);
+
+    if (reminderMethod === "whatsapp" && !phone) {
+      setError("Phone number is required for WhatsApp reminders.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          service,
+          budget,
+          message,
+          reminderMethod,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error ?? "Failed to send message.");
+      }
+
+      if (reminderMethod === "whatsapp") {
+        const url = buildWhatsAppReminderUrl(phone, {
+          name,
+          email,
+          phone,
+          serviceLabel: serviceEntry?.title,
+          budgetLabel: budget ? BUDGET_LABELS[budget] : undefined,
+          message,
+        });
+
+        if (url) {
+          setWhatsappReminderUrl(url);
+          window.open(url, "_blank", "noopener,noreferrer");
+        }
+      } else {
+        setWhatsappReminderUrl(null);
+      }
+
+      form.reset();
+      setReminderMethod("none");
+      setIsSubmitted(true);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -68,8 +148,44 @@ export default function ContactContent() {
                       Thanks for reaching out. We&apos;ll get back to you within
                       24 hours.
                     </p>
+                    {whatsappReminderUrl && (
+                      <a
+                        href={whatsappReminderUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-5 py-2.5 text-sm font-medium text-emerald-400 ring-1 ring-emerald-500/20 transition-colors hover:bg-emerald-500/20"
+                      >
+                        <MessageCircle className="h-4 w-4" />
+                        Open WhatsApp reminder
+                      </a>
+                    )}
+                    <div className="mt-4 rounded-xl border border-white/5 bg-white/5 px-4 py-3 text-left text-sm text-slate-400">
+                      <p className="font-medium text-slate-300">Need us sooner?</p>
+                      <p className="mt-1">
+                        Phone:{" "}
+                        <a
+                          href={`tel:${siteConfig.contact.phone.replace(/[\s-]/g, "")}`}
+                          className="text-cyan-400 hover:text-cyan-300"
+                        >
+                          {siteConfig.contact.phone}
+                        </a>
+                      </p>
+                      <p className="mt-1">
+                        Email:{" "}
+                        <a
+                          href={`mailto:${siteConfig.contact.email}`}
+                          className="text-cyan-400 hover:text-cyan-300"
+                        >
+                          {siteConfig.contact.email}
+                        </a>
+                      </p>
+                    </div>
                     <button
-                      onClick={() => setIsSubmitted(false)}
+                      onClick={() => {
+                        setIsSubmitted(false);
+                        setError(null);
+                        setWhatsappReminderUrl(null);
+                      }}
                       className="mt-6 text-sm font-medium text-cyan-400 hover:text-cyan-300"
                     >
                       Send another message
@@ -118,11 +234,15 @@ export default function ContactContent() {
                         className="block text-sm font-medium text-slate-300"
                       >
                         Phone Number
+                        {reminderMethod === "whatsapp" && (
+                          <span className="text-red-400"> *</span>
+                        )}
                       </label>
                       <input
                         type="tel"
                         id="phone"
                         name="phone"
+                        required={reminderMethod === "whatsapp"}
                         className="mt-2 block w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-500 transition-colors focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 focus:outline-none"
                         placeholder="+880 1XXX-XXXXXX"
                       />
@@ -192,11 +312,82 @@ export default function ContactContent() {
                       </p>
                     </div>
 
+                    <fieldset className="rounded-xl border border-white/10 bg-white/5 px-4 py-4">
+                      <legend className="px-1 text-sm font-medium text-slate-300">
+                        Optional reminder with OMIX contact details
+                      </legend>
+                      <p className="mt-1 text-xs text-slate-500">
+                        Phone {siteConfig.contact.phone} · Email{" "}
+                        {siteConfig.contact.email}
+                      </p>
+                      <div className="mt-4 space-y-3">
+                        {(
+                          [
+                            {
+                              value: "none" as const,
+                              label: "No reminder",
+                              description: "Submit only — we'll reply by email.",
+                            },
+                            {
+                              value: "email" as const,
+                              label: "Email reminder",
+                              description:
+                                "Send a confirmation to your email with our contact details.",
+                              icon: Mail,
+                            },
+                            {
+                              value: "whatsapp" as const,
+                              label: "WhatsApp reminder",
+                              description:
+                                "Open WhatsApp with a saved message including your submission and our details.",
+                              icon: MessageCircle,
+                            },
+                          ] as const
+                        ).map((option) => (
+                          <label
+                            key={option.value}
+                            className={`flex cursor-pointer items-start gap-3 rounded-lg border px-3 py-3 transition-colors ${
+                              reminderMethod === option.value
+                                ? "border-cyan-500/40 bg-cyan-500/5"
+                                : "border-white/5 hover:border-white/10"
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="reminderMethod"
+                              value={option.value}
+                              checked={reminderMethod === option.value}
+                              onChange={() => setReminderMethod(option.value)}
+                              className="mt-1 h-4 w-4 border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/20"
+                            />
+                            <span className="flex-1">
+                              <span className="flex items-center gap-2 text-sm font-medium text-slate-200">
+                                {"icon" in option && option.icon && (
+                                  <option.icon className="h-4 w-4 text-cyan-400" />
+                                )}
+                                {option.label}
+                              </span>
+                              <span className="mt-0.5 block text-xs text-slate-500">
+                                {option.description}
+                              </span>
+                            </span>
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
+
+                    {error && (
+                      <p className="rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-300">
+                        {error}
+                      </p>
+                    )}
+
                     <button
                       type="submit"
-                      className="group inline-flex items-center gap-2.5 rounded-full bg-cyan-500 px-8 py-3.5 text-sm font-semibold text-slate-900 shadow-lg shadow-cyan-500/20 transition-all duration-300 hover:bg-cyan-400 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
+                      disabled={isSubmitting}
+                      className="group inline-flex items-center gap-2.5 rounded-full bg-cyan-500 px-8 py-3.5 text-sm font-semibold text-slate-900 shadow-lg shadow-cyan-500/20 transition-all duration-300 hover:bg-cyan-400 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
                     >
-                      Send Message
+                      {isSubmitting ? "Sending..." : "Send Message"}
                       <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                     </button>
                   </form>
