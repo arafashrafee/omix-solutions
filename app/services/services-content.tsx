@@ -12,6 +12,7 @@ import {
   fadeUp,
 } from "@/components/ui/motion";
 import CTA from "@/components/sections/cta";
+import CloudStartupCalculator from "@/components/sections/cloud-startup-calculator";
 
 export default function ServicesContent() {
   return (
@@ -145,6 +146,8 @@ export default function ServicesContent() {
           </StaggerChildren>
         </div>
       </section>
+
+      <CloudStartupCalculator />
 
       <CTA />
     </>
