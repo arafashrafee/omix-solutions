@@ -2,13 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
-import { Mail, Phone, MapPin, Send, CheckCircle2, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Send, CheckCircle2 } from "lucide-react";
 import { siteConfig, services } from "@/lib/data";
-import {
-  BUDGET_LABELS,
-  buildWhatsAppReminderUrl,
-  type ReminderMethod,
-} from "@/lib/contact-reminder";
 import { AnimateOnScroll } from "@/components/ui/motion";
 import HeroBeams from "@/components/ui/hero-beams";
 
@@ -16,10 +11,6 @@ export default function ContactContent() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [reminderMethod, setReminderMethod] = useState<ReminderMethod>("none");
-  const [whatsappReminderUrl, setWhatsappReminderUrl] = useState<string | null>(
-    null
-  );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,17 +21,8 @@ export default function ContactContent() {
     const formData = new FormData(form);
     const name = String(formData.get("name") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
-    const phone = String(formData.get("phone") ?? "").trim();
     const service = String(formData.get("service") ?? "").trim();
-    const budget = String(formData.get("budget") ?? "").trim();
     const message = String(formData.get("message") ?? "").trim();
-    const serviceEntry = services.find((item) => item.slug === service);
-
-    if (reminderMethod === "whatsapp" && !phone) {
-      setError("Phone number is required for WhatsApp reminders.");
-      setIsSubmitting(false);
-      return;
-    }
 
     try {
       const response = await fetch("/api/contact", {
@@ -49,11 +31,9 @@ export default function ContactContent() {
         body: JSON.stringify({
           name,
           email,
-          phone,
           service,
-          budget,
           message,
-          reminderMethod,
+          reminderMethod: "none",
         }),
       });
 
@@ -63,26 +43,7 @@ export default function ContactContent() {
         throw new Error(result.error ?? "Failed to send message.");
       }
 
-      if (reminderMethod === "whatsapp") {
-        const url = buildWhatsAppReminderUrl(phone, {
-          name,
-          email,
-          phone,
-          serviceLabel: serviceEntry?.title,
-          budgetLabel: budget ? BUDGET_LABELS[budget] : undefined,
-          message,
-        });
-
-        if (url) {
-          setWhatsappReminderUrl(url);
-          window.open(url, "_blank", "noopener,noreferrer");
-        }
-      } else {
-        setWhatsappReminderUrl(null);
-      }
-
       form.reset();
-      setReminderMethod("none");
       setIsSubmitted(true);
     } catch (err) {
       setError(
@@ -130,35 +91,51 @@ export default function ContactContent() {
       <section className="bg-[#111827] py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid gap-16 lg:grid-cols-5 lg:gap-20">
-            <div className="lg:col-span-3">
+            <div id="consultation" className="scroll-mt-28 lg:col-span-3">
               <AnimateOnScroll>
                 {isSubmitted ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="flex flex-col items-center rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-12 text-center"
+                    tabIndex={-1}
+                    ref={(node) => {
+                      if (node) {
+                        node.focus({ preventScroll: true });
+                        node.scrollIntoView({ block: "start" });
+                      }
+                    }}
+                    role="status"
+                    aria-labelledby="request-received"
+                    className="scroll-mt-28 flex flex-col items-center rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6 text-center outline-none sm:p-10"
                   >
                     <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10">
                       <CheckCircle2 className="h-8 w-8 text-emerald-400" />
                     </div>
-                    <h3 className="mt-6 text-xl font-semibold text-white">
-                      Message sent!
+                    <h3 id="request-received" className="mt-6 text-xl font-semibold text-white">
+                      Request received ✓
                     </h3>
-                    <p className="mt-2 text-sm text-slate-400">
-                      Thanks for reaching out. We&apos;ll get back to you within
-                      24 hours.
+                    <ol className="mt-6 w-full space-y-4 text-left">
+                      {[
+                        "We've received your requirements",
+                        "Our team reviews your project",
+                        "We'll contact you within 24 hours",
+                      ].map((step, index) => (
+                        <li key={step} className="flex items-start gap-3">
+                          <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${index === 0 ? "bg-emerald-500/10 text-emerald-400" : "bg-white/5 text-slate-400"}`}>
+                            {index === 0 ? <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> : index + 1}
+                          </span>
+                          <div>
+                            <p className="text-xs font-medium text-slate-500">Step {index + 1}</p>
+                            <p className="mt-1 text-sm text-slate-300">{step}</p>
+                          </div>
+                        </li>
+                      ))}
+                    </ol>
+                    <p className="mt-6 text-sm leading-relaxed text-slate-400">
+                      Thanks for considering Omix Solutions. Even if we don&apos;t
+                      end up working together, we&apos;ll try to point you in the
+                      right direction.
                     </p>
-                    {whatsappReminderUrl && (
-                      <a
-                        href={whatsappReminderUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-5 py-2.5 text-sm font-medium text-emerald-400 ring-1 ring-emerald-500/20 transition-colors hover:bg-emerald-500/20"
-                      >
-                        <MessageCircle className="h-4 w-4" />
-                        Open WhatsApp reminder
-                      </a>
-                    )}
                     <div className="mt-4 rounded-xl border border-white/5 bg-white/5 px-4 py-3 text-left text-sm text-slate-400">
                       <p className="font-medium text-slate-300">Need us sooner?</p>
                       <p className="mt-1">
@@ -184,7 +161,6 @@ export default function ContactContent() {
                       onClick={() => {
                         setIsSubmitted(false);
                         setError(null);
-                        setWhatsappReminderUrl(null);
                       }}
                       className="mt-6 text-sm font-medium text-cyan-400 hover:text-cyan-300"
                     >
@@ -205,6 +181,7 @@ export default function ContactContent() {
                           type="text"
                           id="name"
                           name="name"
+                          autoComplete="name"
                           required
                           className="mt-2 block w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-500 transition-colors focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 focus:outline-none"
                           placeholder="Your name"
@@ -221,6 +198,7 @@ export default function ContactContent() {
                           type="email"
                           id="email"
                           name="email"
+                          autoComplete="email"
                           required
                           className="mt-2 block w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-500 transition-colors focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 focus:outline-none"
                           placeholder="you@company.com"
@@ -230,37 +208,17 @@ export default function ContactContent() {
 
                     <div>
                       <label
-                        htmlFor="phone"
-                        className="block text-sm font-medium text-slate-300"
-                      >
-                        Phone Number
-                        {reminderMethod === "whatsapp" && (
-                          <span className="text-red-400"> *</span>
-                        )}
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        required={reminderMethod === "whatsapp"}
-                        className="mt-2 block w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-500 transition-colors focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 focus:outline-none"
-                        placeholder="+880 1XXX-XXXXXX"
-                      />
-                    </div>
-
-                    <div>
-                      <label
                         htmlFor="service"
                         className="block text-sm font-medium text-slate-300"
                       >
-                        Service Interested In
+                        What do you need?
                       </label>
                       <select
                         id="service"
                         name="service"
                         className="mt-2 block w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white transition-colors focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 focus:outline-none appearance-none"
                       >
-                        <option value="" className="bg-[#111827]">Select a service</option>
+                        <option value="" className="bg-[#111827]">Not sure — help me choose</option>
                         {services.map((service) => (
                           <option key={service.slug} value={service.slug} className="bg-[#111827]">
                             {service.title}
@@ -271,110 +229,24 @@ export default function ContactContent() {
 
                     <div>
                       <label
-                        htmlFor="budget"
-                        className="block text-sm font-medium text-slate-300"
-                      >
-                        Estimated Budget
-                      </label>
-                      <select
-                        id="budget"
-                        name="budget"
-                        className="mt-2 block w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white transition-colors focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 focus:outline-none appearance-none"
-                      >
-                        <option value="" className="bg-[#111827]">Select a range</option>
-                        <option value="50k-100k" className="bg-[#111827]">৳50,000 – ৳1,00,000</option>
-                        <option value="100k-250k" className="bg-[#111827]">৳1,00,000 – ৳2,50,000</option>
-                        <option value="250k-500k" className="bg-[#111827]">৳2,50,000 – ৳5,00,000</option>
-                        <option value="500k-1m" className="bg-[#111827]">৳5,00,000 – ৳10,00,000</option>
-                        <option value="1m-plus" className="bg-[#111827]">৳10,00,000+</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label
                         htmlFor="message"
                         className="block text-sm font-medium text-slate-300"
                       >
-                        Project Details{" "}
+                        Short Project Details{" "}
                         <span className="text-red-400">*</span>
                       </label>
                       <textarea
                         id="message"
                         name="message"
                         required
-                        rows={5}
+                        rows={3}
                         className="mt-2 block w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-500 transition-colors focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 focus:outline-none resize-none"
-                        placeholder="Tell us about your project, goals, and timeline..."
+                        placeholder="What would you like to achieve? A few sentences are enough."
                       />
                       <p className="mt-1.5 text-xs text-slate-500">
-                        The more details you share, the better we can prepare
-                        for our conversation.
+                        Tell us your goal. We&apos;ll recommend a solution that fits.
                       </p>
                     </div>
-
-                    <fieldset className="rounded-xl border border-white/10 bg-white/5 px-4 py-4">
-                      <legend className="px-1 text-sm font-medium text-slate-300">
-                        Optional reminder with OMIX contact details
-                      </legend>
-                      <p className="mt-1 text-xs text-slate-500">
-                        Phone {siteConfig.contact.phone} · Email{" "}
-                        {siteConfig.contact.email}
-                      </p>
-                      <div className="mt-4 space-y-3">
-                        {(
-                          [
-                            {
-                              value: "none" as const,
-                              label: "No reminder",
-                              description: "Submit only — we'll reply by email.",
-                            },
-                            {
-                              value: "email" as const,
-                              label: "Email reminder",
-                              description:
-                                "Send a confirmation to your email with our contact details.",
-                              icon: Mail,
-                            },
-                            {
-                              value: "whatsapp" as const,
-                              label: "WhatsApp reminder",
-                              description:
-                                "Open WhatsApp with a saved message including your submission and our details.",
-                              icon: MessageCircle,
-                            },
-                          ] as const
-                        ).map((option) => (
-                          <label
-                            key={option.value}
-                            className={`flex cursor-pointer items-start gap-3 rounded-lg border px-3 py-3 transition-colors ${
-                              reminderMethod === option.value
-                                ? "border-cyan-500/40 bg-cyan-500/5"
-                                : "border-white/5 hover:border-white/10"
-                            }`}
-                          >
-                            <input
-                              type="radio"
-                              name="reminderMethod"
-                              value={option.value}
-                              checked={reminderMethod === option.value}
-                              onChange={() => setReminderMethod(option.value)}
-                              className="mt-1 h-4 w-4 border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/20"
-                            />
-                            <span className="flex-1">
-                              <span className="flex items-center gap-2 text-sm font-medium text-slate-200">
-                                {"icon" in option && option.icon && (
-                                  <option.icon className="h-4 w-4 text-cyan-400" />
-                                )}
-                                {option.label}
-                              </span>
-                              <span className="mt-0.5 block text-xs text-slate-500">
-                                {option.description}
-                              </span>
-                            </span>
-                          </label>
-                        ))}
-                      </div>
-                    </fieldset>
 
                     {error && (
                       <p className="rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-300">
@@ -387,7 +259,7 @@ export default function ContactContent() {
                       disabled={isSubmitting}
                       className="group inline-flex items-center gap-2.5 rounded-full bg-cyan-500 px-8 py-3.5 text-sm font-semibold text-slate-900 shadow-lg shadow-cyan-500/20 transition-all duration-300 hover:bg-cyan-400 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
                     >
-                      {isSubmitting ? "Sending..." : "Send Message"}
+                      {isSubmitting ? "Sending..." : "Get a Free Consultation"}
                       <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                     </button>
                   </form>

@@ -30,7 +30,7 @@ export default function CTA() {
               href="/contact"
               className="group inline-flex items-center gap-2.5 rounded-full bg-cyan-500 px-8 py-4 text-sm font-semibold text-slate-900 shadow-xl shadow-cyan-500/20 transition-all duration-300 hover:bg-cyan-400 hover:shadow-2xl hover:shadow-cyan-500/30 hover:-translate-y-0.5 active:translate-y-0"
             >
-              Start a Conversation
+              Get a Free Consultation
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
             <Link

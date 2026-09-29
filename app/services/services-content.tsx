@@ -81,6 +81,20 @@ export default function ServicesContent() {
               );
             })}
           </StaggerChildren>
+
+          <AnimateOnScroll className="mt-8 max-w-2xl">
+            <p className="text-sm leading-relaxed text-slate-400">
+              Not sure which service you need? Tell us your goal and we&apos;ll
+              recommend the right solution.
+            </p>
+            <Link
+              href="/contact#consultation"
+              className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-cyan-400 transition-colors hover:text-cyan-300"
+            >
+              Tell Us Your Goal
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </AnimateOnScroll>
         </div>
       </section>
 

@@ -79,7 +79,7 @@ export default function Header() {
             href="/contact"
             className="inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-cyan-500/20 transition-all duration-300 hover:bg-cyan-400 hover:shadow-xl hover:shadow-cyan-500/30 hover:-translate-y-0.5 active:translate-y-0"
           >
-            Get Started
+            Get a Free Consultation
             <ChevronDown className="h-3.5 w-3.5 -rotate-90" />
           </Link>
         </div>
@@ -139,7 +139,7 @@ export default function Header() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="mt-4 inline-flex items-center gap-2 rounded-full bg-cyan-500 px-8 py-3 text-base font-semibold text-slate-900"
                 >
-                  Get Started
+                  Get a Free Consultation
                 </Link>
               </motion.div>
             </motion.nav>

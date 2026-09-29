@@ -2,7 +2,14 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
-import { stats } from "@/lib/data";
+
+// Describe available services without implying unverified business results.
+const capabilities = [
+  { value: "Design", label: "Brand & User Experience" },
+  { value: "Build", label: "Software & Websites" },
+  { value: "Grow", label: "Marketing & SEO" },
+  { value: "Support", label: "IT Consulting" },
+];
 
 export default function Stats() {
   const ref = useRef(null);
@@ -19,7 +26,7 @@ export default function Stats() {
 
       <div ref={ref} className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
-          {stats.map((stat, i) => (
+          {capabilities.map((stat, i) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 25 }}
@@ -31,7 +38,7 @@ export default function Stats() {
               }}
               className="text-center"
             >
-              <p className="bg-gradient-to-b from-white to-white/70 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl">
+              <p className="bg-gradient-to-b from-white to-white/70 bg-clip-text text-3xl font-bold tracking-tight text-transparent sm:text-5xl">
                 {stat.value}
               </p>
               <p className="mt-2 text-sm font-medium text-slate-400">
